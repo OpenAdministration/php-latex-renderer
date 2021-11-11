@@ -51,16 +51,22 @@ class LatexRenderer
         $this->logger = new NullLogger();
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
+    /**
+     * @param $templateDir
+     */
     public function setTemplateDir($templateDir): void
     {
         $this->twig->setLoader(new FilesystemLoader($templateDir));
     }
 
+    /**
+     * @param string $tmpDir the directory path where the latex runtime files will be located
+     */
     public function setTmpDir(string $tmpDir): void
     {
         if (!str_ends_with($tmpDir, '/')) {
@@ -72,6 +78,10 @@ class LatexRenderer
         }
     }
 
+    /**
+     * @param array $files
+     * @return string|null returns pdf as string or null on failure
+     */
     public function renderPdf(string $templateName, array $variables, array $files = []): ?string
     {
         try {

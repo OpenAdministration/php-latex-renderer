@@ -1,0 +1,44 @@
+(% extends "basic.tex.twig" %)
+(% block title %)Mein Titel(% endblock %)
+(% block main %)
+(% for section in content %)
+    (% if section.headline is defined %)
+        \vspace*{-0.5cm}
+        \mysection{(( section.headline ))}
+    (% endif %)
+    (% if section.text is defined %)
+        \vspace{5mm}
+        {\footnotesize
+            (( section.text ))
+        }
+        \vspace{5mm}
+        \newline
+        (% endif %)
+    (% if section.items is defined %)
+        \begin{enumerate}[label=\Roman*(% if section.resume is defined and section.resume %),resume(% endif %)]
+            \itemsep-2mm
+            (% for item in section.items %)
+            \item \textbf{(( item.label ))}\hfill (( item.value ))
+            (% endfor %)
+        \end{enumerate}
+    (% endif %)%section.items end
+    (% if section.signatures is defined %)
+        \vspace{5mm}
+        \hspace{15pt}
+        (% for signature in section.signatures %)
+            \parbox[b]{120pt}{% size of the first signature box
+                \strut
+                \textbf{(( signature.label))} \\[1.25cm]% This 2cm is the space for the signature under the names
+                \hrule
+                \vspace{0.25cm}
+                (( signature.name ))
+            }
+            (% if not loop.last %)
+                \hspace{30pt}
+            (% endif %)
+        (% endfor %)% end signature loop
+        \newline
+        \vspace{5mm}
+    (% endif %)%end signatures
+(% endfor  %)%end content
+(% endblock %)

@@ -22,6 +22,10 @@ file_put_contents('main.pdf', $pdf);
 header("Content-type:application/pdf");
 echo $pdf;
 ```
+### Try the sample 
+```
+php -f samples/simple-report.php
+```
 
 # Contribute 
 Please run 
