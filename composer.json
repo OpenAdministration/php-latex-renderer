@@ -1,0 +1,38 @@
+{
+    "name": "open-administration/php-latex-renderer",
+    "description": "Renders LaTeX Templates in PHP",
+    "type": "libary",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lukas Staab",
+            "email": "l.staab@posteo.de"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.4|^8.0",
+        "symfony/process": "^5.3",
+        "twig/twig": "^3.3",
+        "psr/cache": "^3.0",
+        "psr/log": "^2.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "friendsofphp/php-cs-fixer": "^3.2",
+        "monolog/monolog": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpLatexRenderer\\": "src/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs"
+        ],
+        "cs": "php-cs-fixer fix -v --diff --dry-run",
+        "cs-fix": "php-cs-fixer fix -v --diff"
+    }
+
+}
