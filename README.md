@@ -15,7 +15,12 @@ $tex->setTmpDir('./runtime/'); // <- where to build the latex files
 $pdf = $tex->renderPdf('simple-report', [ // <- which template to use (file ending .tex.twig)
     'title' => 'My Custom Title', // <- variables to set 
     'author' => 'Me!',
-]); 
+]);
+// output / save the pdf with
+file_put_contents('main.pdf', $pdf);
+// or echo with fitting header 
+header("Content-type:application/pdf");
+echo $pdf;
 ```
 
 # Contribute 
