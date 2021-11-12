@@ -6,7 +6,7 @@ define('ROOT', dirname(__FILE__, 2));
 
 require ROOT . '/vendor/autoload.php';
 
-$tex = new LatexRenderer(__DIR__, 'pdflatex', true);
+$tex = new LatexRenderer(__DIR__, 'pdflatex', true); // <- debug true - files will not be deleted
 $monolog = new \Monolog\Logger('Tex-Samples', [new \Monolog\Handler\RotatingFileHandler(ROOT . '/runtime/log/sample.log')]);
 $tex->setLogger($monolog);
 $tex->setTmpDir(ROOT . '/runtime/');
@@ -56,4 +56,4 @@ $pdf = $tex->renderPdf('simple-report', [
         ],
     ],
 ]);
-echo $pdf !== null ? 'Success' .PHP_EOL : 'Failure' . PHP_EOL;
+echo $pdf !== null ? 'Success' . PHP_EOL : 'Failure' . PHP_EOL;

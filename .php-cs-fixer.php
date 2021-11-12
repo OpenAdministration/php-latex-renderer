@@ -27,5 +27,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_no_alias_tag' => false, // Allow @link in addition to @see.
         'phpdoc_separation' => false, // Don't put blank line between @params, @throws and @return.
         'phpdoc_summary' => false, // Don't force terminating dot on the first line.
+        'phpdoc_add_missing_param_annotation' => ['only_untyped' => false],
     ])
     ->setFinder($finder);

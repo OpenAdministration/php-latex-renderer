@@ -79,7 +79,9 @@ class LatexRenderer
     }
 
     /**
-     * @param array $files
+     * @param string $templateName
+     * @param array $variables
+     * @param array $files additional files which will be saved to ./files/<name> - format: key=name, value=fileContent
      * @return string|null returns pdf as string or null on failure
      */
     public function renderPdf(string $templateName, array $variables, array $files = []): ?string
