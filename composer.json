@@ -14,7 +14,7 @@
         "php": "^7.4|^8.0",
         "symfony/process": "^5.3",
         "twig/twig": "^3.3",
-        "psr/log": "^2.0"
+        "psr/log": "^1.1"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
