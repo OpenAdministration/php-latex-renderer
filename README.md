@@ -1,5 +1,10 @@
 # php-latex-renderer
-wraps latex rendering and generating with twig templates 
+wraps latex rendering and generating with twig templates. This library does
+  * using twig for latex templating
+  * inserting user data into latex templates 
+  * escaping user data, so no new latex commands can be introduced by userdata 
+  * renders latex file and returns pdf 
+  * has compact latex error logs 
 # Installation
 Installation via composer is suggested  
 ```
