@@ -114,7 +114,7 @@ class LatexRenderer
             return null;
         }
 
-        $proc = new Process([$this->latexExec, 'main.tex'], $this->tmpDir . "tex/$templateName/$uid");
+        $proc = new Process([$this->latexExec, 'main.tex'], $this->tmpDir . "tex/$templateName/$uid/");
         $proc->run();
         // do a second time
         $proc2 = $proc->restart();
@@ -124,15 +124,18 @@ class LatexRenderer
         $auxPath = $dir . '/main.aux';
         $texPath = $dir . '/main.tex';
 
-        if ($proc2->getExitCode() !== 0) {
+        if (!$proc2->isSuccessful()) {
             // try to filter tex log for most important parts (lines starting with ! and the line after it)
+            $errors = ['No tex log file written - wrong path?', $proc->getErrorOutput()];
             $logContent = file_get_contents($logPath);
-            $logLines = explode(PHP_EOL, $logContent);
-            $errorLineNumbers = array_keys(preg_grep('/^!.*$/', $logLines));
-            $errors = array_filter(
-                $logLines,
-                static fn ($key) => in_array($key, $errorLineNumbers, true) || in_array($key - 1, $errorLineNumbers, true),
-                ARRAY_FILTER_USE_KEY);
+            if ($logContent) {
+                $logLines = explode(PHP_EOL, $logContent);
+                $errorLineNumbers = array_keys(preg_grep('/^!.*$/', $logLines));
+                $errors = array_filter(
+                    $logLines,
+                    static fn ($key) => in_array($key, $errorLineNumbers, true) || in_array($key - 1, $errorLineNumbers, true),
+                    ARRAY_FILTER_USE_KEY);
+            }
             $this->logger->error("Error in Template $templateName", $errors);
             $this->deleteFiles($dir, $files);
             return null;
