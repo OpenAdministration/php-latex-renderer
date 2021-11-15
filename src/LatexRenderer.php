@@ -29,6 +29,8 @@ class LatexRenderer
 
     /**
      * @param $templateDirs array|string the path(s) where the .tex.twig templates are found
+     * @param $tmpDir string the directory where latex code will be compiled
+     * @param $latexExec string the path to the latex exec to use
      * @param $debug bool true the files will not be deleted after attempted rendering
      */
     public function __construct($templateDirs, string $tmpDir = '/tmp/', string $latexExec = 'pdflatex', bool $debug = false)
@@ -88,8 +90,6 @@ class LatexRenderer
     }
 
     /**
-     * @param string $templateName
-     * @param array $variables
      * @param array $files additional files which will be saved to ./files/<name> - format: key=name, value=fileContent
      * @return string|null returns pdf as string or null on failure
      */
