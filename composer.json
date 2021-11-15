@@ -3,6 +3,7 @@
     "description": "Renders LaTeX Templates in PHP",
     "type": "libary",
     "license": "MIT",
+    "version": "1.1.0",
     "authors": [
         {
             "name": "Lukas Staab",

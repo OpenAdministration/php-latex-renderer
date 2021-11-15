@@ -31,10 +31,11 @@ class LatexRenderer
      * @param $templateDirs array|string the path(s) where the .tex.twig templates are found
      * @param $debug bool true the files will not be deleted after attempted rendering
      */
-    public function __construct($templateDirs, string $latexExec = 'pdflatex', bool $debug = false)
+    public function __construct($templateDirs, string $tmpDir = '/tmp/', string $latexExec = 'pdflatex', bool $debug = false)
     {
         $this->debug = $debug;
         $this->latexExec = $latexExec;
+        $this->tmpDir = $tmpDir;
         $loader = new FilesystemLoader($templateDirs);
         $this->twig = new Environment($loader, [
             'debug' => $debug,
