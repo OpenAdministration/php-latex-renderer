@@ -45,11 +45,19 @@ class LatexRenderer
         ]);
         $this->twig->getExtension(EscaperExtension::class)->setEscaper('tex', [LatexEscape::class, 'escape']);
         $this->twig->setLexer(new Lexer($this->twig, [
-            'tag_comment' => ['(!', '!)'],
             'tag_block' => ['(%', '%)'],
+            'tag_comment' => ['(!', '!)'],
             'tag_variable' => ['((', '))'],
         ]));
         $this->logger = new NullLogger();
+    }
+
+    /**
+     * @param array $lexerOptions {@see \Twig\Lexer}
+     */
+    public function setTwigLexer(array $lexerOptions): void
+    {
+        $this->twig->setLexer(new Lexer($this->twig, $lexerOptions));
     }
 
     public function setLogger(LoggerInterface $logger): void

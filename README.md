@@ -27,6 +27,20 @@ file_put_contents('main.pdf', $pdf);
 header("Content-type:application/pdf");
 echo $pdf;
 ```
+### Twig options
+The following symbols are used for twig templating 
+```php
+$options = [
+    'tag_block' => ['(%', '%)'],
+    'tag_comment' => ['(!', '!)'],
+    'tag_variable' => ['((', '))'],
+];
+```
+due to `{{`, `{#` and `{%` are too common in regular latex code. Be carefull with `((` it is easy to use it in calculations as well. You can use 
+```php 
+$tex->setTwigLexer($options)
+```
+for custom variants. 
 ### Try the sample 
 ```
 php -f samples/simple-report.php
