@@ -126,7 +126,7 @@ class LatexRenderer
 
         if (!$proc2->isSuccessful()) {
             // try to filter tex log for most important parts (lines starting with ! and the line after it)
-            $errors = ['No tex log file written - wrong path?', $proc->getErrorOutput()];
+            $errors = [$proc2->getOutput(), $proc2->getErrorOutput()];
             if (file_exists($logPath)) {
                 $logContent = file_get_contents($logPath);
                 $logLines = explode(PHP_EOL, $logContent);
