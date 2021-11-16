@@ -9,15 +9,12 @@ class LatexFilterExtension extends \Twig\Extension\AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('nl2tex', [$this, 'nl2tex']),
+            new TwigFilter('nl2tex', [$this, 'nl2tex'], ['pre_escape' => 'tex', 'is_safe' => true]),
         ];
     }
 
-    public function nl2tex(?string $in): string
+    public function nl2tex(string $in): string
     {
-        if ($in === null) {
-            return '';
-        }
         return str_replace(PHP_EOL, '\\\\', $in);
     }
 }
