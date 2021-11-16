@@ -2,14 +2,14 @@
 
 namespace PhpLatexRenderer;
 
-use Twig\TwigFunction;
+use Twig\TwigFilter;
 
 class LatexFilterExtension extends \Twig\Extension\AbstractExtension
 {
     public function getFilters(): array
     {
         return [
-            new TwigFunction('nl2tex', [$this, 'nl2tex']),
+            new TwigFilter('nl2tex', [$this, 'nl2tex']),
         ];
     }
 

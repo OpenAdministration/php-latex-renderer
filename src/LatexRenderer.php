@@ -11,7 +11,6 @@ use Twig\Error\Error;
 use Twig\Extension\EscaperExtension;
 use Twig\Lexer;
 use Twig\Loader\FilesystemLoader;
-use Twig\Source;
 
 /**
  * Configure and execute the rendering
