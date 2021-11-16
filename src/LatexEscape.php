@@ -14,6 +14,7 @@ class LatexEscape
             ['\\&', '\\%', '\\$', '\\#', '\\_', '\\{', '\\}', '\\textasciitilde{}', '\\textasciicircum{}', '\\textbackslash{}'],
             $unsafe
         );
+        $safer = trim($safer);
         $safer = str_replace(PHP_EOL, '\\\\', $safer);
         return $safer;
     }

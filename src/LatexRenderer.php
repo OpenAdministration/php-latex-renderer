@@ -110,7 +110,8 @@ class LatexRenderer
 
             file_put_contents($this->tmpDir . "tex/$templateName/$uid/main.tex", $tex);
         } catch (Error $error) {
-            $this->logger->alert($error->getMessage(), $error->getTrace());
+
+            $this->logger->alert($error->getMessage(), $error->getSourceContext());
             return null;
         }
 
