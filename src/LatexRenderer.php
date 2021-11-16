@@ -11,6 +11,7 @@ use Twig\Error\Error;
 use Twig\Extension\EscaperExtension;
 use Twig\Lexer;
 use Twig\Loader\FilesystemLoader;
+use Twig\Source;
 
 /**
  * Configure and execute the rendering
@@ -110,8 +111,7 @@ class LatexRenderer
 
             file_put_contents($this->tmpDir . "tex/$templateName/$uid/main.tex", $tex);
         } catch (Error $error) {
-
-            $this->logger->alert($error->getMessage(), $error->getSourceContext());
+            $this->logger->alert($error->getMessage(), [$error->getFile(), $error->getTemplateLine()]);
             return null;
         }
 
