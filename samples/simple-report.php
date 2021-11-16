@@ -6,10 +6,11 @@ define('ROOT', dirname(__FILE__, 2));
 
 require ROOT . '/vendor/autoload.php';
 
-$tex = new LatexRenderer(__DIR__, 'pdflatex', true); // <- debug true - files will not be deleted
-$monolog = new \Monolog\Logger('Tex-Samples', [new \Monolog\Handler\RotatingFileHandler(ROOT . '/runtime/log/sample.log')]);
+$finder = new \Symfony\Component\Process\ExecutableFinder();
+$pdfLatex = $finder->find('pdflatex');
+$tex = new LatexRenderer(__DIR__, ROOT . '/runtime/', 'pdflatex', true); // <- debug true - files will not be deleted
+$monolog = new \Monolog\Logger('Tex-Samples', [new \Monolog\Handler\StreamHandler('php://output')]);
 $tex->setLogger($monolog);
-$tex->setTmpDir(ROOT . '/runtime/');
 $pdf = $tex->renderPdf('simple-report', [
     'title' => 'My Custom Title',
     'author' => 'Me!',

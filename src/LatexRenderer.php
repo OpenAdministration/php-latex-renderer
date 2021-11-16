@@ -114,7 +114,7 @@ class LatexRenderer
             return null;
         }
 
-        $proc = new Process([$this->latexExec, 'main.tex'], $this->tmpDir . "tex/$templateName/$uid/");
+        $proc = new Process([$this->latexExec, 'main.tex'], $this->tmpDir . "tex/$templateName/$uid/", getenv());
         $proc->run();
         // do a second time
         $proc2 = $proc->restart();
