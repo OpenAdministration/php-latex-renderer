@@ -47,6 +47,7 @@ class LatexRenderer
             'cache' => false,
         ]);
         $this->twig->getExtension(EscaperExtension::class)->setEscaper('tex', [LatexEscape::class, 'escape']);
+        $this->twig->addExtension(new LatexFilterExtension());
         $this->twig->setLexer(new Lexer($this->twig, [
             'tag_block' => ['(%', '%)'],
             'tag_comment' => ['(!', '!)'],

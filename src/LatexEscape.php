@@ -15,7 +15,7 @@ class LatexEscape
             $unsafe
         );
         $safer = trim($safer);
-        $safer = str_replace(PHP_EOL, '\\\\', $safer);
+        // $safer = str_replace(PHP_EOL, '\\\\', $safer);
         return $safer;
     }
 }
