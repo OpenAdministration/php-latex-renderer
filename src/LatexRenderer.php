@@ -8,6 +8,7 @@ use Symfony\Component\Process\Process;
 use Twig\Cache\FilesystemCache;
 use Twig\Environment;
 use Twig\Error\Error;
+use Twig\Extension\DebugExtension;
 use Twig\Extension\EscaperExtension;
 use Twig\Lexer;
 use Twig\Loader\FilesystemLoader;
@@ -47,6 +48,10 @@ class LatexRenderer
         ]);
         $this->twig->getExtension(EscaperExtension::class)->setEscaper('tex', [LatexEscape::class, 'escape']);
         $this->twig->addExtension(new LatexFilterExtension());
+        $this->twig->addExtension(new PdfFilterExtension());
+        if ($debug) {
+            $this->twig->addExtension(new DebugExtension());
+        }
         $this->twig->setLexer(new Lexer($this->twig, [
             'tag_block' => ['(%', '%)'],
             'tag_comment' => ['(!', '!)'],
@@ -91,6 +96,7 @@ class LatexRenderer
     }
 
     /**
+     * @param array $variables _tex will be added
      * @param array $files additional files which will be saved to ./files/<name> - format: key=name, value=fileContent
      * @return string|null returns pdf as string or null on failure
      */
@@ -104,9 +110,20 @@ class LatexRenderer
                 $this->logger->critical('Directory was not created', [$dir]);
                 return null;
             }
+            $fileNames = [];
             foreach ($files as $name => $content) {
                 file_put_contents($this->tmpDir . "tex/$templateName/$uid/files/$name", $content);
+                // write down filenames
+                $fileNames[$name] = 'files/' . $name;
             }
+            $latexVars = [
+                '_tex' => [
+                    'files' => $fileNames,
+                    'dir' => $this->tmpDir . "tex/$templateName/$uid/",
+                    'template' => $templateName,
+                ],
+            ];
+            $variables = array_merge($latexVars, $variables);
             $tex = $this->twig->render($templateName . '.tex.twig', $variables);
 
             file_put_contents($this->tmpDir . "tex/$templateName/$uid/main.tex", $tex);

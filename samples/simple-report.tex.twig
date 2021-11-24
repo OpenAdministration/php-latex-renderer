@@ -41,4 +41,10 @@
         \vspace{5mm}
     (% endif %)%end signatures
 (% endfor  %)%end content
+\mysection{Attachments}
+\begin{enumerate}[label=\roman*)]
+(% for name,path in _tex.files %)
+    \item \texttt{(( name ))} in \texttt{(( path ))} with \texttt{(( path|pages ))} pages
+(% endfor %)
+\end{enumerate}
 (% endblock %)

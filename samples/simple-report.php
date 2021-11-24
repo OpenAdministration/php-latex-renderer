@@ -56,5 +56,7 @@ $pdf = $tex->renderPdf('simple-report', [
             ],
         ],
     ],
+], [
+    'example.pdf' => file_get_contents('example.pdf'),
 ]);
 echo $pdf !== null ? 'Success' . PHP_EOL : 'Failure' . PHP_EOL;
