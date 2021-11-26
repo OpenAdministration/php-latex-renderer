@@ -2,17 +2,13 @@
 
 namespace PhpLatexRenderer;
 
-use Monolog\Logger;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
-use Twig\Environment;
 use Twig\TwigFilter;
 
 class PdfFilterExtension extends \Twig\Extension\AbstractExtension
 {
     private bool $qpdf;
-
 
     public function __construct()
     {
@@ -30,7 +26,7 @@ class PdfFilterExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param array $context all variables
      * @param string $relFilePath only the filename, no path is needed. Directory is taken as _tex.dir/files/
-     * @return int|null returns null if file does not exist
+     * @return int|null returns null if file does not exist, int with number of pages otherwise
      */
     public function pages(array $context, $relFilePath): ?int
     {
