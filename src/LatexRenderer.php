@@ -176,7 +176,7 @@ class LatexRenderer
             return;
         }
         foreach ($files as $fileName => $fileContent) {
-            file_exists($dir . '/file/' . $fileName) && unlink($dir . '/file/' . $fileName);
+            file_exists($dir . '/files/' . $fileName) && unlink($dir . '/files/' . $fileName);
         }
         rmdir($dir . '/files/');
         file_exists($dir . '/main.tex') && unlink($dir . '/main.tex');
