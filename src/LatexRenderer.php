@@ -123,7 +123,7 @@ class LatexRenderer
                     'template' => $templateName,
                 ],
             ];
-            $variables = array_merge($latexVars, $variables);
+            $this->twig->addGlobal('_tex', $latexVars);
             $tex = $this->twig->render($templateName . '.tex.twig', $variables);
 
             file_put_contents($this->tmpDir . "tex/$templateName/$uid/main.tex", $tex);
