@@ -46,6 +46,7 @@ class LatexRenderer
             'autoescape' => 'tex',
             'cache' => false,
         ]);
+        $this->twig->addGlobal('_tex', []);
         $this->twig->getExtension(EscaperExtension::class)->setEscaper('tex', [LatexEscape::class, 'escape']);
         $this->twig->addExtension(new LatexFilterExtension());
         $this->twig->addExtension(new PdfFilterExtension());
@@ -116,14 +117,12 @@ class LatexRenderer
                 // write down filenames
                 $fileNames[$name] = 'files/' . $name;
             }
-            $latexVars = [
-                '_tex' => [
-                    'files' => $fileNames,
-                    'dir' => $this->tmpDir . "tex/$templateName/$uid/",
-                    'template' => $templateName,
-                ],
-            ];
-            $this->twig->addGlobal('_tex', $latexVars);
+            // update global content
+            $this->twig->addGlobal('_tex', [
+                'files' => $fileNames,
+                'dir' => $this->tmpDir . "tex/$templateName/$uid/",
+                'template' => $templateName,
+            ]);
             $tex = $this->twig->render($templateName . '.tex.twig', $variables);
 
             file_put_contents($this->tmpDir . "tex/$templateName/$uid/main.tex", $tex);
