@@ -41,6 +41,16 @@ due to `{{`, `{#` and `{%` are too common in regular latex code. Be carefull wit
 $tex->setTwigLexer($options)
 ```
 for custom variants. 
+### Meta Twig Context 
+There is a new introduced global variable `_tex`, which can be used everywhere and is defined like: 
+```php 
+$this->twig->addGlobal('_tex', [
+    'files' => $fileNames, // with name.pdf => files/name.pdf (local path in dir) 
+    'dir' => $tmpDir . "tex/$templateName/$uid/",
+    'template' => $twigTemplateName,
+]);
+```
+Example: `_tex.dir` 
 ### Try the sample 
 ```
 php -f samples/simple-report.php
