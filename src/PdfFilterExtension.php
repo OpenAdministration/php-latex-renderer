@@ -9,12 +9,14 @@ use Twig\TwigFilter;
 
 class PdfFilterExtension extends \Twig\Extension\AbstractExtension
 {
-    private bool $qpdf;
+    private string $qpdfPath;
+    private string $pdfinfoPath;
 
     public function __construct()
     {
         $finder = new ExecutableFinder();
-        $this->qpdf = $finder->find('qpdf');
+        $this->qpdfPath = $finder->find('qpdf', '');
+        $this->pdfinfoPath = $finder->find('pdfinfo', '');
     }
 
     public function getFilters(): array
@@ -40,13 +42,25 @@ class PdfFilterExtension extends \Twig\Extension\AbstractExtension
         if (!file_exists($file)) {
             throw new RuntimeError('File does not exist');
         }
-        if (!empty($this->qpdf)) {
-            $p = new Process(['qpdf', '--show-npages', $file]);
-            $p->run();
-            if ($p->isSuccessful()) {
-                return (int) $p->getOutput();
-            }
-            return null;
+
+        switch (false) {
+            case empty($this->qpdfPath):
+                $process = new Process([$this->qpdfPath, '--show-npages', $file]);
+                $callback = static fn ($output) => (int) $output;
+                break;
+            case empty($this->pdfinfoPath):
+                $process = new Process([$this->pdfinfoPath, $file]);
+                $callback = static function ($output) {
+                    preg_match("/Pages:\s*(\d+)/i", $output, $matches);
+                    return (int) $matches[1];
+                };
+                break;
+            default:
+                throw new RuntimeError('No executable found on the system to determine the pdf page count');
+        }
+        $process->run();
+        if ($process->isSuccessful()) {
+            return $callback($process->getOutput());
         }
         return null;
     }
