@@ -10,8 +10,8 @@ class LatexEscape
             return '';
         }
         $safer = str_replace(
-            ['&', '%', '$', '#', '_', '{', '}', '~', '^', '\\'],
-            ['\\&', '\\%', '\\$', '\\#', '\\_', '\\{', '\\}', '\\textasciitilde{}', '\\textasciicircum{}', '\\textbackslash{}'],
+            ['\\', '&', '%', '$', '#', '_', '{', '}', '~', '^'],
+            ['\\textbackslash{}', '\\&', '\\%', '\\$', '\\#', '\\_', '\\{', '\\}', '\\textasciitilde{}', '\\textasciicircum{}'],
             $unsafe
         );
         $safer = trim($safer);
