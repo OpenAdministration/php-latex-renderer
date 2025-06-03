@@ -4,18 +4,32 @@ namespace PhpLatexRenderer;
 
 class LatexEscape
 {
-    public static function escape($twig, ?string $unsafe, $charset): string
+    // @see: https://tex.stackexchange.com/a/34586
+    public const ESCAPES =  [
+        '\\' => '\\textbackslash{}',
+        '&' => '\\&',
+        '%' =>  '\\%',
+        '$' => '\\$',
+        '#' => '\\#',
+        '_' => '\\_',
+        '{' => '\\{',
+        '}' => '\\}',
+        '~' => '\\~{}',
+        '^' => '\\^{}',
+        "'" => "\\'{}",
+        '"' => '\\"{}',
+    ];
+
+    public static function escape(?string $unsafe, $charset): string
     {
         if ($unsafe === null) {
             return '';
         }
         $safer = str_replace(
-            ['\\', '&', '%', '$', '#', '_', '{', '}', '~', '^'],
-            ['\\textbackslash{}', '\\&', '\\%', '\\$', '\\#', '\\_', '\\{', '\\}', '\\textasciitilde{}', '\\textasciicircum{}'],
+            array_keys(self::ESCAPES),
+            array_values(self::ESCAPES),
             $unsafe
         );
-        $safer = trim($safer);
-        // $safer = str_replace(PHP_EOL, '\\\\', $safer);
-        return $safer;
+        return trim($safer);
     }
 }

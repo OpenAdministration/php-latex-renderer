@@ -13,6 +13,7 @@ use Twig\Extension\EscaperExtension;
 use Twig\Extension\ExtensionInterface;
 use Twig\Lexer;
 use Twig\Loader\FilesystemLoader;
+use Twig\Runtime\EscaperRuntime;
 
 /**
  * Configure and execute the rendering
@@ -35,7 +36,7 @@ class LatexRenderer
      * @param $latexExec string the path to the latex exec to use
      * @param $debug bool true the files will not be deleted after attempted rendering
      */
-    public function __construct($templateDirs, string $tmpDir = '/tmp/', string $latexExec = 'pdflatex', bool $debug = false)
+    public function __construct(array|string $templateDirs, string $tmpDir = '/tmp/', string $latexExec = 'pdflatex', bool $debug = false)
     {
         $this->debug = $debug;
         $this->latexExec = $latexExec;
@@ -48,7 +49,7 @@ class LatexRenderer
             'cache' => false,
         ]);
         $this->twig->addGlobal('_tex', []);
-        $this->twig->getExtension(EscaperExtension::class)->setEscaper('tex', [LatexEscape::class, 'escape']);
+        $this->twig->getRuntime(EscaperRuntime::class)->setEscaper('tex', [LatexEscape::class, 'escape']);
         $this->twig->addExtension(new LatexFilterExtension());
         $this->twig->addExtension(new PdfFilterExtension());
         if ($debug) {
@@ -139,7 +140,7 @@ class LatexRenderer
 
         $proc = new Process([$this->latexExec, 'main.tex'], $this->tmpDir . "tex/$templateName/$uid/", getenv());
         $proc->run();
-        // do a second time
+        // run it a second time, some tex features need dual compilation
         $proc2 = $proc->restart();
         $proc2->wait();
         $dir = $this->tmpDir . "tex/$templateName/$uid";
