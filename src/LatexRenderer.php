@@ -9,9 +9,10 @@ use Twig\Cache\FilesystemCache;
 use Twig\Environment;
 use Twig\Error\Error;
 use Twig\Extension\DebugExtension;
-use Twig\Extension\EscaperExtension;
+use Twig\Extension\ExtensionInterface;
 use Twig\Lexer;
 use Twig\Loader\FilesystemLoader;
+use Twig\Runtime\EscaperRuntime;
 
 /**
  * Configure and execute the rendering
@@ -22,7 +23,7 @@ class LatexRenderer
 
     private string $latexExec;
 
-    private \Twig\Environment $twig;
+    private Environment $twig;
 
     private bool $debug;
 
@@ -34,7 +35,7 @@ class LatexRenderer
      * @param $latexExec string the path to the latex exec to use
      * @param $debug bool true the files will not be deleted after attempted rendering
      */
-    public function __construct($templateDirs, string $tmpDir = '/tmp/', string $latexExec = 'pdflatex', bool $debug = false)
+    public function __construct(array|string $templateDirs, string $tmpDir = '/tmp/', string $latexExec = 'pdflatex', bool $debug = false)
     {
         $this->debug = $debug;
         $this->latexExec = $latexExec;
@@ -47,7 +48,7 @@ class LatexRenderer
             'cache' => false,
         ]);
         $this->twig->addGlobal('_tex', []);
-        $this->twig->getExtension(EscaperExtension::class)->setEscaper('tex', [LatexEscape::class, 'escape']);
+        $this->twig->getRuntime(EscaperRuntime::class)->setEscaper('tex', [LatexEscape::class, 'escape']);
         $this->twig->addExtension(new LatexFilterExtension());
         $this->twig->addExtension(new PdfFilterExtension());
         if ($debug) {
@@ -62,7 +63,7 @@ class LatexRenderer
     }
 
     /**
-     * @param array $lexerOptions {@see \Twig\Lexer}
+     * @param array $lexerOptions {@see Lexer}
      */
     public function setTwigLexer(array $lexerOptions): void
     {
@@ -74,9 +75,6 @@ class LatexRenderer
         $this->logger = $logger;
     }
 
-    /**
-     * @param $templateDir
-     */
     public function setTemplateDir($templateDir): void
     {
         $this->twig->setLoader(new FilesystemLoader($templateDir));
@@ -94,6 +92,14 @@ class LatexRenderer
         if (!$this->debug) {
             $this->twig->setCache(new FilesystemCache($this->tmpDir . 'cache/'));
         }
+    }
+
+    /**
+     * @param ExtensionInterface $extension the custom extension to add to twig instance
+     */
+    public function addCustomExtension(ExtensionInterface $extension): void
+    {
+        $this->twig->addExtension($extension);
     }
 
     /**
@@ -133,7 +139,7 @@ class LatexRenderer
 
         $proc = new Process([$this->latexExec, 'main.tex'], $this->tmpDir . "tex/$templateName/$uid/", getenv());
         $proc->run();
-        // do a second time
+        // run it a second time, some tex features need dual compilation
         $proc2 = $proc->restart();
         $proc2->wait();
         $dir = $this->tmpDir . "tex/$templateName/$uid";

@@ -3,18 +3,18 @@
     "description": "Renders LaTeX Templates in PHP",
     "type": "libary",
     "license": "MIT",
-    "version": "1.1.9",
+    "version": "1.2.0",
     "authors": [
         {
             "name": "Lukas Staab",
-            "email": "l.staab@posteo.de"
+            "email": "lukas@open-administration.de"
         }
     ],
     "minimum-stability": "stable",
     "require": {
         "php": "^8.0",
         "symfony/process": "^5.3|^6.0|^7.0",
-        "twig/twig": "^3.3",
+        "twig/twig": "^3.10",
         "psr/log": "^1|^2|^3"
     },
     "require-dev": {
