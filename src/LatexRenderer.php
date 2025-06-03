@@ -10,6 +10,7 @@ use Twig\Environment;
 use Twig\Error\Error;
 use Twig\Extension\DebugExtension;
 use Twig\Extension\EscaperExtension;
+use Twig\Extension\ExtensionInterface;
 use Twig\Lexer;
 use Twig\Loader\FilesystemLoader;
 
@@ -22,7 +23,7 @@ class LatexRenderer
 
     private string $latexExec;
 
-    private \Twig\Environment $twig;
+    private Environment $twig;
 
     private bool $debug;
 
@@ -62,7 +63,7 @@ class LatexRenderer
     }
 
     /**
-     * @param array $lexerOptions {@see \Twig\Lexer}
+     * @param array $lexerOptions {@see Lexer}
      */
     public function setTwigLexer(array $lexerOptions): void
     {
@@ -74,9 +75,6 @@ class LatexRenderer
         $this->logger = $logger;
     }
 
-    /**
-     * @param $templateDir
-     */
     public function setTemplateDir($templateDir): void
     {
         $this->twig->setLoader(new FilesystemLoader($templateDir));
@@ -94,6 +92,14 @@ class LatexRenderer
         if (!$this->debug) {
             $this->twig->setCache(new FilesystemCache($this->tmpDir . 'cache/'));
         }
+    }
+
+    /**
+     * @param ExtensionInterface $extension the custom extension to add to twig instance
+     */
+    public function addCustomExtension(ExtensionInterface $extension): void
+    {
+        $this->twig->addExtension($extension);
     }
 
     /**
