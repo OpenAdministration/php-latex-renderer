@@ -56,9 +56,13 @@ Example: `_tex.dir`
 php -f samples/simple-report.php
 ```
 
+# Examples 
+
+You can find some real world examples in the `samples` Folder
+
 # Contribute 
 Please run 
 ```
 composer cs-fix 
 ```
-before doing a pull request
+and commit the changes in an extra commit before doing a pull request
