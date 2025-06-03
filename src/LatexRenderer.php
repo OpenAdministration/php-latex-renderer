@@ -9,7 +9,6 @@ use Twig\Cache\FilesystemCache;
 use Twig\Environment;
 use Twig\Error\Error;
 use Twig\Extension\DebugExtension;
-use Twig\Extension\EscaperExtension;
 use Twig\Extension\ExtensionInterface;
 use Twig\Lexer;
 use Twig\Loader\FilesystemLoader;

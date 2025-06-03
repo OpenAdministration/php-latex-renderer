@@ -5,10 +5,10 @@ namespace PhpLatexRenderer;
 class LatexEscape
 {
     // @see: https://tex.stackexchange.com/a/34586
-    public const ESCAPES =  [
+    public const ESCAPES = [
         '\\' => '\\textbackslash{}',
         '&' => '\\&',
-        '%' =>  '\\%',
+        '%' => '\\%',
         '$' => '\\$',
         '#' => '\\#',
         '_' => '\\_',
