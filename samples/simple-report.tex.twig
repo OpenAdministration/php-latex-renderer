@@ -41,8 +41,11 @@
         \vspace{5mm}
     (% endif %)%end signatures
 (% endfor  %)%end content
-\mysection{Attachments}
+\mysection{List of Attachments}
 \begin{enumerate}[label=\roman*)]
+(% if _tex.files is empty  %)
+    \item no attachments given
+(% endif %)
 (% for name,path in _tex.files %)
     \item \texttt{(( name ))} in \texttt{(( path ))} with \texttt{(( path|pages ))} pages
 (% endfor %)
